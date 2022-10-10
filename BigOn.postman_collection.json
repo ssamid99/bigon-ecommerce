@@ -1,0 +1,658 @@
+{
+	"info": {
+		"_postman_id": "102f497e-5775-4661-a119-3798fa0460f8",
+		"name": "BigOn",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23706420"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Brands",
+					"item": [
+						{
+							"name": "GET",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/brands",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"brands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GETBYID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/brands/6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"brands",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PoST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Demo7673ww76\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4120/api/brands",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"brands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"name\": \"Demtto18889\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4120/api/brands/11",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"brands",
+										"11"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/brands/11",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"brands",
+										"11"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Materials",
+					"item": [
+						{
+							"name": "GET",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/materials",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"materials"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GETBYID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/materials/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"materials",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PoST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Plastffic\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4120/api/materials",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"materials"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \r\n    \"name\": \"Plastwwwwic\",\r\n    \"id\": 5\r\n    \r\n}\r\n    ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4120/api/materials/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"materials",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/materials/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"materials",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Types",
+					"item": [
+						{
+							"name": "GET",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/types",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"types"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GETBYID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/types/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"types",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PoST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Plastffic\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4120/api/types",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"types"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \r\n    \"name\": \"Plastwwwwic\",\r\n    \"id\": 2\r\n    \r\n}\r\n    ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4120/api/types/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"types",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/types/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"types",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Sizes",
+					"item": [
+						{
+							"name": "GET",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/sizes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"sizes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GETBYID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/sizes/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"sizes",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PoST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n        \"name\": \"Smallook\",\r\n        \"smallName\": \"So\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4120/api/sizes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"sizes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"kyi\",\r\n    \"smallName\": \"S3o\",\r\n    \"id\":\"6\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4120/api/sizes/6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"sizes",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/sizes/6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"sizes",
+										"6"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Colors",
+					"item": [
+						{
+							"name": "GET",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/colors",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"colors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GETBYID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/colors/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"colors",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PoST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"bla5646ck\",\r\n    \"hex\": \"#uuu000\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4120/api/colors",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"colors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"bla564tttk\",\r\n    \"hex\": \"#uuiiu000\",\r\n    \"id\":4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4120/api/colors/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"colors",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4120/api/colors/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4120",
+									"path": [
+										"api",
+										"colors",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "UI",
+			"item": [
+				{
+					"name": "Subscribe",
+					"item": []
+				},
+				{
+					"name": "ContactPost",
+					"item": []
+				}
+			]
+		}
+	]
+}
