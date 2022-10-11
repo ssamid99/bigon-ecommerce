@@ -22,6 +22,9 @@ namespace BigOn.Domain.Models.DataContents
         public DbSet<ProductCatalogItem> ProductCatalogItem { get; set; } //ad sehvi
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<Subscribe> Subscribes { get; set; }
+        public DbSet<BlogPost> BlogPosts { get; set; }
+        public DbSet<BlogPostComment> BlogPostComments { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

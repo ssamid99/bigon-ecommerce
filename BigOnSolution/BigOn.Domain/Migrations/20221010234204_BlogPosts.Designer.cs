@@ -4,14 +4,16 @@ using BigOn.Domain.Models.DataContents;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BigOn.Domain.Migrations
 {
     [DbContext(typeof(BigOnDbContext))]
-    partial class BigOnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221010234204_BlogPosts")]
+    partial class BlogPosts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -26273,3 +26273,19 @@ td.operations i {
   overflow: auto;
 }
 /*# sourceMappingURL=style.css.map */
+
+th.operations,
+td.operations {
+    max-width: 148px;
+    width: 148px;
+    text-align: right;
+}
+
+.image-cell {
+    min-width: 100px;
+    max-width: 120px;
+}
+
+    .image-cell > img {
+        max-height: 50px;
+    }
