@@ -248,13 +248,13 @@ namespace BigOn.Domain.Migrations
                     b.Property<int>("ProductSizeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ProductTypeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductMaterialId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductColorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -270,7 +270,10 @@ namespace BigOn.Domain.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.HasKey("ProductId", "ProductSizeId", "ProductMaterialId", "ProductColorId", "ProductTypeId");
+                    b.HasKey("ProductId", "ProductSizeId", "ProductTypeId", "ProductMaterialId", "ProductColorId");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.HasIndex("ProductColorId");
 
@@ -280,7 +283,7 @@ namespace BigOn.Domain.Migrations
 
                     b.HasIndex("ProductTypeId");
 
-                    b.ToTable("ProductCatalogItem");
+                    b.ToTable("ProductCatalog");
                 });
 
             modelBuilder.Entity("BigOn.Domain.Models.Entities.ProductColor", b =>
@@ -431,6 +434,203 @@ namespace BigOn.Domain.Migrations
                     b.ToTable("Subscribes");
                 });
 
+            modelBuilder.Entity("WebApiProject.Models.Entities.Membership.BigOnRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("Roles", "Membership");
+                });
+
+            modelBuilder.Entity("WebApiProject.Models.Entities.Membership.BigOnRoleClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RoleClaims", "Membership");
+                });
+
+            modelBuilder.Entity("WebApiProject.Models.Entities.Membership.BigOnUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("Users", "Membership");
+                });
+
+            modelBuilder.Entity("WebApiProject.Models.Entities.Membership.BigOnUserClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserClaims", "Membership");
+                });
+
+            modelBuilder.Entity("WebApiProject.Models.Entities.Membership.BigOnUserLogin", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLogins", "Membership");
+                });
+
+            modelBuilder.Entity("WebApiProject.Models.Entities.Membership.BigOnUserRole", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoles", "Membership");
+                });
+
+            modelBuilder.Entity("WebApiProject.Models.Entities.Membership.BigOnUserToken", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("UserTokens", "Membership");
+                });
+
             modelBuilder.Entity("BigOn.Domain.Models.Entities.BlogPostComment", b =>
                 {
                     b.HasOne("BigOn.Domain.Models.Entities.BlogPost", "BlogPost")
@@ -520,6 +720,57 @@ namespace BigOn.Domain.Migrations
                         .IsRequired();
 
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("WebApiProject.Models.Entities.Membership.BigOnRoleClaim", b =>
+                {
+                    b.HasOne("WebApiProject.Models.Entities.Membership.BigOnRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApiProject.Models.Entities.Membership.BigOnUserClaim", b =>
+                {
+                    b.HasOne("WebApiProject.Models.Entities.Membership.BigOnUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApiProject.Models.Entities.Membership.BigOnUserLogin", b =>
+                {
+                    b.HasOne("WebApiProject.Models.Entities.Membership.BigOnUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApiProject.Models.Entities.Membership.BigOnUserRole", b =>
+                {
+                    b.HasOne("WebApiProject.Models.Entities.Membership.BigOnRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApiProject.Models.Entities.Membership.BigOnUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApiProject.Models.Entities.Membership.BigOnUserToken", b =>
+                {
+                    b.HasOne("WebApiProject.Models.Entities.Membership.BigOnUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BigOn.Domain.Models.Entities.BlogPost", b =>

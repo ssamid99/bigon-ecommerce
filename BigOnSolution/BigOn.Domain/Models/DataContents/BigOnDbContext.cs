@@ -1,9 +1,11 @@
 ﻿using BigOn.Domain.Models.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WebApiProject.Models.Entities.Membership;
 
 namespace BigOn.Domain.Models.DataContents
 {
-    public class BigOnDbContext : DbContext
+    public partial class BigOnDbContext : IdentityDbContext<BigOnUser, BigOnRole, int, BigOnUserClaim, BigOnUserRole, BigOnUserLogin, BigOnRoleClaim, BigOnUserToken>
     {
         public BigOnDbContext(DbContextOptions options)
             :base(options)
@@ -19,7 +21,7 @@ namespace BigOn.Domain.Models.DataContents
         public DbSet<ProductSize> ProductSizes { get; set; }
         public DbSet<ProductMaterial> ProductMaterials { get; set; }
         public DbSet<ProductImages> ProductImages { get; set; }
-        public DbSet<ProductCatalogItem> ProductCatalogItem { get; set; } //ad sehvi
+        public DbSet<ProductCatalogItem> ProductCatalogItem { get; set; } 
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<Subscribe> Subscribes { get; set; }
         public DbSet<BlogPost> BlogPosts { get; set; }
@@ -30,18 +32,10 @@ namespace BigOn.Domain.Models.DataContents
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<ProductCatalogItem>(cfg =>
-            {
-                cfg.HasKey(k => new   //HasKey 1-de cox PrimaryKey yazmaq uchundur.
-                {
-                    k.ProductId,
-                    k.ProductSizeId,
-                    k.ProductMaterialId,
-                    k.ProductColorId,
-                    k.ProductTypeId
-                });
-                cfg.Property(p => p.Id).UseIdentityColumn(1, 1);
-            });
+
+            var asm = typeof(BigOnDbContext).Assembly;
+
+            modelBuilder.ApplyConfigurationsFromAssembly(asm);
         }
     }
 }

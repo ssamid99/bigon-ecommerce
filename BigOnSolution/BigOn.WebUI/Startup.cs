@@ -1,3 +1,4 @@
+using BigOn.Domain.AppCode.Extensions;
 using BigOn.Domain.Models.DataContents;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApiProject.Models.Entities.Membership;
 
 namespace BigOn.WebUI
 {
@@ -33,6 +35,7 @@ namespace BigOn.WebUI
             {
                 cfg.LowercaseUrls = true;
             });
+            services.SetupIdentity();
         }
 
        
@@ -45,6 +48,10 @@ namespace BigOn.WebUI
             app.SeedData();
             app.UseRouting();
             app.UseStaticFiles();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(cfg =>
             {
                 cfg.MapAreaControllerRoute("defaultAdmin","admin", "admin/{controller=dashboard}/{action=index}/{id?}");
