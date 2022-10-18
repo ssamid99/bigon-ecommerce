@@ -13,7 +13,9 @@ namespace BigOn.Domain.Business.FaqModule
     public class FaqPutCommand : IRequest<Faq>
     {
         public int id { get; set; }
-        public string name { get; set; }
+        public string question { get; set; }
+        public string answer { get; set; }
+
 
         public class FaqPutCommandHandler : IRequestHandler<FaqPutCommand, Faq>
         {
@@ -31,7 +33,8 @@ namespace BigOn.Domain.Business.FaqModule
                 {
                     return null;
                 }
-                data.Name = request.name;
+                data.Question = request.question;
+                data.Answer = request.answer;
                 await db.SaveChangesAsync(cancellationToken);
                 return data;
             }

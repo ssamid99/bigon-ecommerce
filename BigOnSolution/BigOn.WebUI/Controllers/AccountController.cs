@@ -1,4 +1,5 @@
 ﻿using BigOn.Domain.Models.FormData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -16,14 +17,17 @@ namespace BigOn.WebUI.Controllers
             this.signInManager = signInManager;
             this.userManager = userManager;
         }
-
+        [AllowAnonymous]
+        [Route("/signin.html")]
         public IActionResult SignIn()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignInAsync(UserModel model)
+        [AllowAnonymous]
+        [Route("/signin.html")]
+        public async Task<IActionResult> SignIn(UserModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -39,18 +43,25 @@ namespace BigOn.WebUI.Controllers
 
             var result = await signInManager.PasswordSignInAsync(user, model.Password, true, true);
 
-            if (result.Succeeded)
+            
+            
+            if (result.IsNotAllowed)
             {
-                return RedirectToAction("Index", "Home");
-            }
-            else if (result.IsNotAllowed)
-            {
-                return RedirectToAction("Username", "Girish uchu sizin icazeniz yoxdur");
+                ModelState.AddModelError("Username", "Girish uchu sizin icazeniz yoxdur");
             }
             else if (result.IsLockedOut)
             {
-                return RedirectToAction("Username", "5deq sonra yeniden");
+                ModelState.AddModelError("Username", "5deq sonra yeniden yoxlayin!");
             }
+
+            var redirectUrl = Request.Query["ReturnUrl"];
+
+            if (!string.IsNullOrWhiteSpace(redirectUrl))
+            {
+                return Redirect(redirectUrl);
+            }
+
+                return RedirectToAction("Index", "Home");
 
             end:
             return View(model);

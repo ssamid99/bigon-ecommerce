@@ -1,6 +1,7 @@
 ﻿using BigOn.Domain.AppCode.Extensions;
 using BigOn.Domain.Models.DataContents;
 using BigOn.Domain.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
@@ -11,6 +12,7 @@ using System.Web;
 
 namespace BigOn.WebUI.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly BigOnDbContext db;

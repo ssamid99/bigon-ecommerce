@@ -20,6 +20,36 @@ namespace BigOn.Domain.AppCode.Extensions
             services.AddScoped<SignInManager<BigOnUser>>();
             services.AddScoped<UserManager<BigOnUser>>();
             services.AddScoped<RoleManager<BigOnRole>>();
+
+            services.Configure<IdentityOptions>(cfg =>
+            {
+                cfg.User.RequireUniqueEmail = true;
+                //cfg.User.AllowedUserNameCharacters = "";
+
+                cfg.Password.RequireUppercase = false;
+                cfg.Password.RequireLowercase = false;
+                cfg.Password.RequiredLength = 3;
+                cfg.Password.RequireNonAlphanumeric = false;
+                cfg.Password.RequireDigit = false;
+                cfg.Password.RequiredUniqueChars = 1;
+                
+                cfg.Lockout.DefaultLockoutTimeSpan = new TimeSpan(0, 1, 0);
+                cfg.Lockout.AllowedForNewUsers = false;
+
+                cfg.SignIn.RequireConfirmedPhoneNumber = false;
+                cfg.SignIn.RequireConfirmedEmail = true;
+                cfg.SignIn.RequireConfirmedAccount = false;
+            });
+
+            services.ConfigureApplicationCookie(cfg => {
+                cfg.LoginPath = "/signin.html";
+                cfg.AccessDeniedPath = "/accessdenied.html";
+                cfg.Cookie.Name = "bigon";
+                cfg.Cookie.HttpOnly = true;
+                cfg.ExpireTimeSpan = new TimeSpan(0, 15, 0);
+            
+            });
+
             return services; 
         }
     }
