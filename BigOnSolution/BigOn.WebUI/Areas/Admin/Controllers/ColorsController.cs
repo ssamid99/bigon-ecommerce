@@ -1,5 +1,6 @@
 ﻿using BigOn.Domain.Models.DataContents;
 using BigOn.Domain.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -18,12 +19,14 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Colors
+        [Authorize(Policy ="admin.colors.index")]
         public async Task<IActionResult> Index()
         {
             return View(await db.ProductColors.ToListAsync());
         }
 
         // GET: Admin/Colors/Details/5
+        [Authorize(Policy = "admin.colors.details")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,6 +45,7 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Colors/Create
+        [Authorize(Policy = "admin.colors.create")]
         public IActionResult Create()
         {
             return View();
@@ -52,6 +56,7 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.colors.create")]
         public async Task<IActionResult> Create([Bind("Name,Hex")] ProductColor productColor)
         {
             if (ModelState.IsValid)
@@ -64,6 +69,7 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Colors/Edit/5
+        [Authorize(Policy = "admin.colors.edit")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,6 +90,7 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.colors.edit")]
         public async Task<IActionResult> Edit(int id, [Bind("Name,Hex,Id")] ProductColor productColor)
         {
             if (id != productColor.Id)
@@ -118,6 +125,7 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         // POST: Admin/Colors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.colors.delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var productColor = await db.ProductColors.FindAsync(id);

@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Hosting;
 using BigOn.Domain.AppCode.Extensions;
 using BigOn.Domain.Migrations;
 using static System.Net.Mime.MediaTypeNames;
+using BigOn.Domain.Business.BlogPostModule;
+using MediatR;
 
 namespace BigOn.WebUI.Areas.Admin.Controllers
 {
@@ -21,18 +23,20 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
     {
         private readonly BigOnDbContext db;
         private readonly IWebHostEnvironment env;
+        private readonly IMediator mediator;
 
-        public BlogPostsController(BigOnDbContext db, IWebHostEnvironment env)
+        public BlogPostsController(BigOnDbContext db, IWebHostEnvironment env, IMediator mediator)
         {
-           this.db = db;
+            this.db = db;
             this.env = env;
+            this.mediator = mediator;
         }
 
         // GET: Admin/BlogPosts
         public async Task<IActionResult> Index()
         {
             var data = await db.BlogPosts
-                .Where(bg=>bg.DeletedDate==null)
+                .Where(bg => bg.DeletedDate == null)
                 .ToListAsync();
 
             return View(data);
@@ -47,6 +51,9 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
             }
 
             var blogPost = await db.BlogPosts
+                .Include(bp => bp.Category)
+                .Include(bp => bp.TagCloud)
+                .ThenInclude(bp => bp.Tag)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (blogPost == null)
             {
@@ -59,6 +66,8 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         // GET: Admin/BlogPosts/Create
         public IActionResult Create()
         {
+            ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "Id", "Name");
+            ViewBag.Tag = new SelectList(db.Tags.Where(vb => vb.DeletedDate == null).ToList(), "Id", "Text");
             return View();
         }
 
@@ -67,30 +76,25 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Body")] BlogPost blogPost, IFormFile image)
+        public async Task<IActionResult> Create(BlogPostPostCommand command)
         {
-            if (image == null)
+            if (command.Image == null)
             {
                 ModelState.AddModelError("ImagePath", "Shekil Gonderilmelidir");
             }
 
             if (ModelState.IsValid)
             {
-                string extension = Path.GetExtension(image.FileName); //.jpg-ni goturur
-                blogPost.ImagePath = $"blogpost-{Guid.NewGuid().ToString().ToLower()}{extension}";
-
-                string fullPath = env.GetImagePhysicalPath(blogPost.ImagePath);
-
-                using(var fs = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
+                var response = await mediator.Send(command);
+                if (response.Error == false)
                 {
-                    image.CopyTo(fs);
-                }
-
-                db.Add(blogPost);
-                await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+                }
             }
-            return View(blogPost);
+            ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "Id", "Name", command.CategoryId);
+            ViewBag.Tag = new SelectList(db.Tags.Where(vb => vb.DeletedDate == null).ToList(), "Id", "Text");
+
+            return View(command);
         }
 
         // GET: Admin/BlogPosts/Edit/5
@@ -101,12 +105,26 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var blogPost = await db.BlogPosts.FindAsync(id);
+            var blogPost = await db.BlogPosts
+                .Include(bp=>bp.TagCloud)
+                .FirstOrDefaultAsync(bp=>bp.Id == id);
             if (blogPost == null)
             {
                 return NotFound();
             }
-            return View(blogPost);
+            ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "Id", "Name", blogPost.CategoryId);
+            ViewBag.Tag = new SelectList(db.Tags.Where(vb => vb.DeletedDate == null).ToList(), "Id", "Text");
+
+            var editCommand = new BlogPostPutCommand();
+            editCommand.Id = blogPost.Id;
+            editCommand.Title = blogPost.Title;
+            editCommand.Body = blogPost.Body;
+            editCommand.CategoryId = blogPost.CategoryId;
+            editCommand.ImagePath = blogPost.ImagePath;
+            editCommand.tagIds = blogPost.TagCloud.Select(tc=>tc.Id).ToArray();
+
+
+            return View(editCommand);
         }
 
         // POST: Admin/BlogPosts/Edit/5
@@ -114,53 +132,22 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Body")] BlogPost model, IFormFile image)
+        public async Task<IActionResult> Edit(int id, BlogPostPutCommand command)
         {
-            if (id != model.Id)
+            if (id != command.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var response = await mediator.Send(command);
+
+            if (response.Error==false)
             {
-                var entity = db.BlogPosts.FirstOrDefault(bg => bg.Id == id && bg.DeletedDate == null);
-
-                if(entity == null)
-                {
-                    return NotFound();
-                }
-
-                entity.Title = model.Title;
-                entity.Body = model.Body;
-                if (image == null)
-                    goto end;
-
-                string extension = Path.GetExtension(image.FileName); //.jpg-ni goturur
-                model.ImagePath = $"blogpost-{Guid.NewGuid().ToString().ToLower()}{extension}";
-
-                string fullPath = env.GetImagePhysicalPath(model.ImagePath);
-
-                using (var fs = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
-                {
-                    image.CopyTo(fs);
-                }
-
-                string oldPath = env.GetImagePhysicalPath(entity.ImagePath);
-
-                //if (System.IO.File.Exists(oldPath))
-                //{
-                //    System.IO.File.Delete(oldPath);
-                //}
-
-                System.IO.File.Move(oldPath, env.GetImagePhysicalPath($"archive{DateTime.Now:yyyyMMdd}-{entity.ImagePath}"));
-
-                entity.ImagePath = model.ImagePath;
-
-            end:
-                db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "Id", "Name", command.CategoryId);
+            ViewBag.Tag = new SelectList(db.Tags.Where(vb => vb.DeletedDate == null).ToList(), "Id", "Text");
+            return View(command);
         }
 
 

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<BlogPost>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<!-- Breadcrumb Start -->
+<div class="breadcrumb-area ptb-50">
+    <div class="container">
+        <div class="breadcrumb">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li class="active"><a href="blog.html">Blog</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- Container End -->
+</div>
+<!-- Breadcrumb End -->
+<!-- Blog Area Start -->
+<div class="blog-area off-white-bg pb-50">
+    <div class="container">
+        <div class="row">
+            <!-- Section Title Start -->
+            <div class="col-12">
+                <div class="section-title text-center ptb-50">
+                    <h3 class="section-info">ALL LATEST BLOGS</h3>
+                </div>
+            </div>
+            <!-- Section Title End -->
+        </div>
+        <!-- Row End -->
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 col-sm-6">
+                    <!-- Single Blog Start -->
+                    <div class="single-blog">
+                        <div class="blog-img">
+                            <a asp-action="Details" asp-route-slug="@item.Slug"><img src="~/uploads/images/@item.ImagePath" alt="blog-image"></a>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-content-upper">
+                                <h6 class="blog-title">
+                                    <a asp-action="Details" asp-route-slug="@item.Slug">@item.Title</a></h6>
+                                <p class="blog-short-content">@item.Body.ToPlainText()</p>
+                            </div>
+                            <div class="blog-content-lower">
+                                <a href="https://themeforest.net/user/hastech">Hastech</a>
+                                <span class="f-right">@item.PublishedDate?.ToString("dd MM, yyyy")</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Single Blog End -->
+                </div>
+            }
+        </div>
+        <!-- Row End -->
+        <div class="row">
+            <div class="col-12">
+                <ul class="blog-pagination ptb-20">
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                </ul>
+                <!-- End of .blog-pagination -->
+            </div>
+        </div>
+        <!-- Row End -->
+    </div>
+    <!-- Container End -->
+</div>
+<!-- Blog Area End -->
+<!-- Signup Newsletter Start -->
+<partial name="_NewsLetter" />
+<!-- Signup-Newsletter End -->

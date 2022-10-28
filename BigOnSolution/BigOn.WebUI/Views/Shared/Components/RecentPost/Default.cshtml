@@ -1,0 +1,18 @@
+﻿@model IEnumerable<BlogPost>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<ul>
+    @foreach (var item in Model)
+    {
+        <li class="post-thumb fix">
+            <div class="left-post-thumb f-left mr-20 mb-20">
+                <a asp-controller="blog" asp-action="details" asp-route-slug="@item.Slug"><img class="img" src="~/uploads/images/@item.ImagePath" alt="latest-post-imgae"/></a>
+            </div>
+            <div class="right-post-thumb fix">
+                <h4><a asp-controller="blog" asp-action="details" asp-route-slug="@item.Slug">@item.Title</a></h4>
+                <span>@item.PublishedDate?.ToString("MMMM d, yyyy")</span>
+            </div>
+        </li>
+    }
+</ul>

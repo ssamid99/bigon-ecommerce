@@ -1,5 +1,7 @@
 using BigOn.Domain.AppCode.Extensions;
+using BigOn.Domain.AppCode.Services;
 using BigOn.Domain.Models.DataContents;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,9 +46,38 @@ namespace BigOn.WebUI
                 cfg.LowercaseUrls = true;
             });
             services.SetupIdentity();
+            services.AddAuthentication();
+            services.AddAuthorization(cfg =>
+            {
+                foreach (var item in Extension.policies)
+                {
+                    cfg.AddPolicy(item, p =>
+                    {
+                        p.RequireClaim(item, "1");
+                    });
+                }
+
+                cfg.AddPolicy("admin.brands.index", p =>
+                {
+                    p.RequireClaim("admin.brands.index", "1");
+                });
+            });
+
+            services.Configure<CryptoServiceOptions>(cfg =>
+            {
+                configuration.GetSection("cryptopgrapy").Bind(cfg);
+            });
+            services.Configure<EmailServiceOptions>(cfg =>
+            {
+                configuration.GetSection("emailAccount").Bind(cfg);
+            });
+            services.AddSingleton<CryptoService>();
+            services.AddSingleton<EmailService>();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("BigOn."));
+            services.AddMediatR(assemblies.ToArray());
         }
 
-       
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

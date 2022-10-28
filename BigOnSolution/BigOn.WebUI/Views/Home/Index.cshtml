@@ -3808,55 +3808,15 @@
         </div>
         <!-- Random Product End -->
         <!-- Signup Newsletter Start -->
-        <div class="newsletter">
-            <div class="container">
-                <div class="row">
-                     <div class="col-md-7">
-                         <div class="main-news-desc">
-                             <div class="news-desc">
-                                 <h3>Sign Up For <span>Newsletters</span></h3>
-                                 <p>Get e-mail updates about our latest shop and special offers.</p>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="col-md-5">
-                         <div class="newsletter-box">
-                             <form id="newsletter-s1" method="post">
-                                  <input class="subscribe" placeholder="Enter your email address" name="email" id="subscribe" type="email">
-                                  <button type="submit" class="submit">subscribe</button>
-                             </form>
-                         </div>
-                     </div>
-                </div>
-            </div>
-        </div>
+        <partial name="_NewsLetter"/>
         <!-- Signup-Newsletter End -->
+
+        @section addcss{
+            <link rel="stylesheet" href="~/libs/toastr.js/toastr.min.css" />
+        }
 
                          @section addjs{
                              <script src="~/libs/toastr.js/toastr.min.js"></script>
                              <script src="~/libs/toastr.js/toastr.customize.js"></script>
-                             <script>
-                             $(document).ready(function () {
-                                 $('#newsletter-s1').submit(function (e){
-                                     e.preventDefault();
-
-                                     let formdata = new FormData(e.currentTarget);
-
-                                     $.ajax({
-                                         url:'@Url.Action("Subscribe")',
-                                         type:'POST',
-                                         data:formdata,
-                                         processData: false,
-                                         contentType: false,
-                                         success: function(response){
-                                             console.log(response);
-                                         },
-                                         error: function(response){
-                                             console.log(response);
-                                         }
-                                     })
-
-                                 })
-                             })
-                         </script>
+                 
                          }

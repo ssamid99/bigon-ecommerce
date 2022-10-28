@@ -17,36 +17,55 @@
                     <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
-                    <li>
-                        <a asp-controller="brands" asp-action="index">
-                            <span class="pcoded-mtext">Məhsullar</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="brands" asp-action="index">
-                            <span class="pcoded-mtext">Markalar</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="colors" asp-action="index">
-                            <span class="pcoded-mtext">Rənglər</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="sizes" asp-action="index">
-                            <span class="pcoded-mtext">Ölçülər</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="materials" asp-action="index">
-                            <span class="pcoded-mtext">Materiallar</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="types" asp-action="index">
-                            <span class="pcoded-mtext">Növlər</span>
-                        </a>
-                    </li>
+                    @if (User.HasAccess("admin.products.index"))
+                    {
+                        <li>
+                            <a asp-controller="brands" asp-action="index">
+                                <span class="pcoded-mtext">Məhsullar</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.HasAccess("admin.brands.index"))
+                    {
+                        <li>
+                            <a asp-controller="brands" asp-action="index">
+                                <span class="pcoded-mtext">Markalar</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.HasAccess("admin.colors.index"))
+                    {
+                        <li>
+                            <a asp-controller="colors" asp-action="index">
+                                <span class="pcoded-mtext">Rənglər</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.HasAccess("admin.sizes.index"))
+                    {
+                        <li>
+                            <a asp-controller="sizes" asp-action="index">
+                                <span class="pcoded-mtext">Ölçülər</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.HasAccess("admin.materials.index"))
+                    {
+                        <li>
+                            <a asp-controller="materials" asp-action="index">
+                                <span class="pcoded-mtext">Materiallar</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.HasAccess("admin.types.index"))
+                    {
+                        <li>
+                            <a asp-controller="types" asp-action="index">
+                                <span class="pcoded-mtext">Növlər</span>
+                            </a>
+                        </li>
+                    }
+                   
                 </ul>
             </li>
             <li class="pcoded-hasmenu" dropdown-icon="style1" subitem-icon="style1">

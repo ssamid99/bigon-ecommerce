@@ -4,28 +4,11 @@
 <div class="middle-menu">
     <nav>
         <ul class="middle-menu-list">
-            <li>
-                <a href="index.html">home<i class="fa fa-angle-down"></i></a>
-                <!-- Home Version Dropdown Start -->
-                <ul class="ht-dropdown home-dropdown">
-                    <li><a href="index.html">Home Version 1</a></li>
-                    <li><a href="index-2.html">Home Version 2</a></li>
-                    <li><a href="index-3.html">Home Version 3</a></li>
-                    <li><a href="index-4.html">Home Version 4</a></li>
-                </ul>
-                <!-- Home Version Dropdown End -->
-            </li>
+            <li><a asp-controller="home" asp-action="index">home</a></li>
             <li><a asp-controller="home" asp-action="about">about us</a></li>
             <li><a asp-controller="home" asp-action="contactUs">contact us</a></li>
             <li><a asp-controller="home" asp-action="faq">Faq</a></li>
-            <li>
-                <a href="blog.html">blog<i class="fa fa-angle-down"></i></a>
-                <!-- Home Version Dropdown Start -->
-                <ul class="ht-dropdown dropdown-style-two">
-                    <li><a href="blog-details.html">blog details</a></li>
-                </ul>
-                <!-- Home Version Dropdown End -->
-            </li>
+            <li><a asp-controller="blog" asp-action="index">blog</a></li>
             <li>
                 <a href="#">pages<i class="fa fa-angle-down"></i></a>
                 <!-- Home Version Dropdown Start -->
@@ -48,6 +31,7 @@
                 </ul>
                 <!-- Home Version Dropdown End -->
             </li>
+            <li><a asp-controller="admin" asp-action="index">Admin</a></li>
         </ul>
     </nav>
 </div>

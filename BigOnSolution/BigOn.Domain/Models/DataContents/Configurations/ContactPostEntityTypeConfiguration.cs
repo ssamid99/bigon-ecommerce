@@ -20,7 +20,7 @@ namespace BigOn.Domain.Models.DataContexts.Configurations
             builder.Property(c => c.Email)
                 .IsRequired();
 
-            builder.HasIndex(c => c.Email)
+            builder.HasIndex(e => e.Email)
                 .IsUnique();
 
             builder.Property(c => c.Subject)

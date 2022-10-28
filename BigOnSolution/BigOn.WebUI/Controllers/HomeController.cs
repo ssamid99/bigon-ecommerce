@@ -1,4 +1,5 @@
 ﻿using BigOn.Domain.AppCode.Extensions;
+using BigOn.Domain.AppCode.Services;
 using BigOn.Domain.Models.DataContents;
 using BigOn.Domain.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace BigOn.WebUI.Controllers
@@ -16,12 +18,14 @@ namespace BigOn.WebUI.Controllers
     public class HomeController : Controller
     {
         private readonly BigOnDbContext db;
-        private readonly IConfiguration configuration;
+        private readonly CryptoService crypto;
+        private readonly EmailService emailService;
 
-        public HomeController(BigOnDbContext db, IConfiguration configuration)
+        public HomeController(BigOnDbContext db, CryptoService crypto, EmailService emailService)
         {
             this.db = db;
-            this.configuration = configuration;
+            this.crypto = crypto;
+            this.emailService = emailService;
         }
         public IActionResult Index()
         {
@@ -72,7 +76,7 @@ namespace BigOn.WebUI.Controllers
             return View(data);
         }
         [HttpPost]
-        public IActionResult Subscribe(Subscribe model)
+        public async Task<IActionResult> Subscribe(Subscribe model)
         {
             if (!ModelState.IsValid)
             {
@@ -90,7 +94,7 @@ namespace BigOn.WebUI.Controllers
             {
                 return Json(new
                 {
-                    error = false,
+                    error = true,
                     message = "Siz artiq abunesiniz"
                 });
             }
@@ -105,25 +109,26 @@ namespace BigOn.WebUI.Controllers
                 model.Id = entity.Id;
             }
 
-            string token = $"{model.Id}-{model.Email}-{Guid.NewGuid()}".Encrypt(Program.key);
+            string token = $"{model.Id}-{model.Email}-{Guid.NewGuid()}";
+            token = crypto.Encrypt(token, true);
 
-            token = HttpUtility.UrlEncode(token);
+            string message = $"Abuneliyinizi <a href='{Request.Scheme}://{Request.Host}/approve-subscribe?token={token}'>link</a> vasitesile tesdiq edin";
 
-            string message = $"Abuneliyinizi <a href='http://localhost:46091/approve-subscribe?token={token}'>link</a> vasitesile tesdiq edin";
-
-            configuration.SendMail("semedzade1999.ss@gmail.com", message, "Subscribe Confrimation");
+            //configuration.SendMail("semedzade1999.ss@gmail.com", message, "Subscribe Confrimation");
+            await emailService.SendMailAsync(model.Email, "Subscribe Confrimation", message);
             return Json(new
             {
                 error = false,
                 message = "Emailinize tesdiq metni gonderdik"
             });
+            
         }
         [Route("/approve-subscribe")]
         public string SubscribeApprove(string token)
         {
             
 
-            token = token.Decrypt(Program.key);
+            token = crypto.Decrypt(token);
 
             Match match = Regex.Match(token, @"^(?<id>\d+)-(?<email>[^-]+)-(?<randomKey>.*)$");
 
@@ -144,7 +149,7 @@ namespace BigOn.WebUI.Controllers
             }
             if (entity.IsApproved)
             {
-                return "Artiq tesdiq edilib";
+                return ViewBag.Write = "Artiq tesdiq edilib";
             }
             entity.IsApproved = true;
             entity.ApproveDate = DateTime.UtcNow.AddHours(4);

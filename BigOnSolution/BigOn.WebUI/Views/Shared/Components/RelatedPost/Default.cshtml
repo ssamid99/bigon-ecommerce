@@ -1,0 +1,27 @@
+﻿@model IEnumerable<BlogPost>
+
+
+<div class="blog-related-post recent-post mtb-50">
+    <h3 class="sidebar-title">related blog post</h3>
+    <div class="blog-related-post-active owl-carousel">
+         @foreach(var item in Model){
+
+           <div class="single-blog">
+            <div class="blog-img">
+                <a asp-controller="blog" asp-action="details" asp-route-slug="@item.Slug"><img src="~/uploads/images/@item.ImagePath" alt="blog-image"></a>
+            </div>
+            <div class="blog-content">
+                <div class="blog-content-upper">
+                        <h6 class="blog-title"><a asp-controller="blog" asp-action="details" asp-route-slug="@item.Slug">@item.Title</a></h6>
+                        <p class="blog-short-content">@item.Body.ToPlainText()</p>
+                    </div>
+                <div class="blog-content-lower">
+                        <a asp-controller="home" asp-action="index">Bigon</a>
+                        <span class="f-right">@item.PublishedDate?.ToString("dd MMM, yyyy")</span>
+                </div>
+            </div>
+        </div>
+         }
+        
+    </div>
+</div>

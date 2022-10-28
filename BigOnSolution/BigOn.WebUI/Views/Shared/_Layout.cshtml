@@ -12,7 +12,7 @@
     <!-- place favicon.ico in the root directory -->
     <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/icon/favicon.png">
     <!-- google font rubik -->
-    <link href="https://fonts.googleapis.com/css?family=Rubik:400,500,600" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,500,600" rel="stylesheet">
     <!-- mobile menu css -->
     <link rel="stylesheet" href="~/assets/css/meanmenu.min.css">
     <!-- animate css -->
@@ -22,7 +22,7 @@
     <!-- owl carousel css -->
     <link rel="stylesheet" href="~/assets/css/owl.carousel.min.css">
     <!-- slick css -->
-   <link rel="stylesheet" href="~/assets/css/slick.css">
+    <link rel="stylesheet" href="~/assets/css/slick.css">
     <!-- price slider css -->
     <link rel="stylesheet" href="~/assets/css/jquery-ui.min.css">
     <!-- fontawesome css -->
@@ -43,10 +43,10 @@
 </head>
 
 <body>
-    
+
     <!--[if lt IE 8]>
-	<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-	<![endif]-->
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
     <!-- Wrapper Start -->
     <div class="wrapper">
         <!-- Newsletter Popup Start -->
@@ -75,48 +75,51 @@
             <!-- Header Top Start -->
             <div class="header-top off-white-bg">
                 <div class="container">
-                   <div class="row">
+                    <div class="row">
                         <!-- Header Top left Start -->
-                    <div class="header-top-left col-8 col-md-3">
-                        <ul class="header-list-menu d-flex flex-wrap">
-                            <!-- Currency Start -->
-                            <li><a href="#">Us Dollar<i class="fa fa-angle-down"></i></a>
-                                <ul class="ht-dropdown">
-                                    <li><a href="#">USD</a></li>
-                                    <li><a href="#">GBP</a></li>
-                                    <li><a href="#">EUR</a></li>
-                                </ul>
-                            </li>
-                            <!-- Currency End -->
-                            <!-- Language Start -->
-                            <li><a href="#">English<i class="fa fa-angle-down"></i></a>
-                                <ul class="ht-dropdown">
-                                    <li><a href="#">Spanish</a></li>
-                                    <li><a href="#">Bengali</a></li>
-                                    <li><a href="#">Russian</a></li>
-                                </ul>
-                            </li>
-                            <!-- Language End -->
-                        </ul>
-                        <!-- Header-list-menu End -->
+                        <div class="header-top-left col-8 col-md-3">
+                            <ul class="header-list-menu d-flex flex-wrap">
+                                <!-- Currency Start -->
+                                <li>
+                                    <a href="#">Us Dollar<i class="fa fa-angle-down"></i></a>
+                                    <ul class="ht-dropdown">
+                                        <li><a href="#">USD</a></li>
+                                        <li><a href="#">GBP</a></li>
+                                        <li><a href="#">EUR</a></li>
+                                    </ul>
+                                </li>
+                                <!-- Currency End -->
+                                <!-- Language Start -->
+                                <li>
+                                    <a href="#">English<i class="fa fa-angle-down"></i></a>
+                                    <ul class="ht-dropdown">
+                                        <li><a href="#">Spanish</a></li>
+                                        <li><a href="#">Bengali</a></li>
+                                        <li><a href="#">Russian</a></li>
+                                    </ul>
+                                </li>
+                                <!-- Language End -->
+                            </ul>
+                            <!-- Header-list-menu End -->
+                        </div>
+                        <!-- Header Top left End -->
+                        <!-- Header Top Right Start -->
+                        <div class="header-top-right col-4 col-md-9">
+                            <ul class="header-list-menu right-menu d-flex justify-content-end">
+                                <li class="d-none d-md-flex justify-content-end"><span><i class="fa fa-phone"></i> Ordered before 17:30, shipped today  - Support: (012) 800 456 789</span></li>
+                                <li>
+                                    <a href="#"><i class="fa fa-cog"></i>setting</a>
+                                    <ul class="ht-dropdown ht-account">
+                                        <li><a href="account.html">My account</a></li>
+                                        <li><a href="wishlist.html">my wishlist</a></li>
+                                        <li><a href="login.html">sign in</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <!-- Header-list-menu End -->
+                        </div>
+                        <!-- Header Top Right End -->
                     </div>
-                    <!-- Header Top left End -->
-                    <!-- Header Top Right Start -->
-                    <div class="header-top-right col-4 col-md-9">
-                        <ul class="header-list-menu right-menu d-flex justify-content-end">
-                            <li class="d-none d-md-flex justify-content-end"><span><i class="fa fa-phone"></i> Ordered before 17:30, shipped today  - Support: (012) 800 456 789</span></li>
-                            <li><a href="#"><i class="fa fa-cog"></i>setting</a>
-                                <ul class="ht-dropdown ht-account">
-                                    <li><a href="account.html">My account</a></li>
-                                    <li><a href="wishlist.html">my wishlist</a></li>
-                                    <li><a href="login.html">sign in</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <!-- Header-list-menu End -->
-                    </div>
-                    <!-- Header Top Right End -->
-                   </div>
                 </div>
                 <!-- Container End -->
             </div>
@@ -128,30 +131,24 @@
                         <div class="col-5 col-md-3">
                             <!-- Logo Start -->
                             <div class="logo d-none d-md-block">
-                                <a href="index.html"><img src="~/assets/img/logo/logo.png" alt="logo-image"></a>
+                                <a asp-controller="home" asp-action="index"><img src="~/assets/img/logo/logo.png" alt="logo-image"></a>
                             </div>
                             <!-- Logo End -->
-                            <div class="d-md-none full-col plr-0">
-                                <!-- Logo Start -->
-                                <div class="logo">
-                                    <a href="index.html"><img src="~/assets/img/logo/logo.png" alt="logo-image"></a>
-                                </div>
-                                <!-- Logo End -->
-                            </div>
                         </div>
 
                         <div class="col-md-9 d-none d-md-block">
-                             <!-- Header Middle Menu Start -->
-                             <partial name="_MiddleMenu"/>
+                            <!-- Header Middle Menu Start -->
+                            <partial name="_MiddleMenu" />
                             <!-- Header Middle Menu End -->
                         </div>
-                         <!-- Cartt Box Start -->
+                        <!-- Cartt Box Start -->
                         <div class="col-7 col-md-12 full-col fl-r d-md-none">
                             <div class="cart-box">
                                 <ul class=" pe-5 text-end">
                                     <li><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
                                     <li><a href="compare.html"><i class="fa fa-signal"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-basket"></i><span class="cart-counter">2</span></a>
+                                    <li>
+                                        <a href="#"><i class="fa fa-shopping-basket"></i><span class="cart-counter">2</span></a>
                                         <ul class="ht-dropdown main-cart-box">
                                             <li>
                                                 <!-- Cart Box Start -->
@@ -189,7 +186,8 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li class="search-bar-xs d-none"><a href="#"><i class="fa fa-search"></i></a>
+                                    <li class="search-bar-xs d-none">
+                                        <a href="#"><i class="fa fa-search"></i></a>
                                         <div class="ht-dropdown search-box-view">
                                             <form action="#">
                                                 <input type="text" class="email" placeholder="Search for item..." name="email">
@@ -206,7 +204,8 @@
                             <div class="mobile-menu">
                                 <nav>
                                     <ul>
-                                        <li><a href="index.html">home</a>
+                                        <li>
+                                            <a href="index.html">home</a>
                                             <!-- Home Version Dropdown Start -->
                                             <ul>
                                                 <li><a href="index.html">Home Version 1</a></li>
@@ -216,7 +215,8 @@
                                             </ul>
                                             <!-- Home Version Dropdown End -->
                                         </li>
-                                        <li><a href="shop.html">shop</a>
+                                        <li>
+                                            <a href="shop.html">shop</a>
                                             <!-- Mobile Menu Dropdown Start -->
                                             <ul>
                                                 <li><a href="product.html">product details</a></li>
@@ -227,14 +227,16 @@
                                             </ul>
                                             <!-- Mobile Menu Dropdown End -->
                                         </li>
-                                        <li><a href="blog.html">Blog</a>
+                                        <li>
+                                            <a href="blog.html">Blog</a>
                                             <!-- Mobile Menu Dropdown Start -->
                                             <ul>
                                                 <li><a href="blog-details.html">blog details</a></li>
                                             </ul>
                                             <!-- Mobile Menu Dropdown End -->
                                         </li>
-                                        <li><a href="#">pages</a>
+                                        <li>
+                                            <a href="#">pages</a>
                                             <!-- Mobile Menu Dropdown Start -->
                                             <ul>
                                                 <li><a href="login.html">login</a></li>
@@ -273,7 +275,8 @@
                                 <span class="categorie-title">all Categories </span>
                                 <nav>
                                     <ul class="vertical-menu-list menu-hidden">
-                                        <li><a href="shop.html"><span><img src="~/assets/img/vertical-menu/1.png" alt="menu-icon"></span>Computer</a>
+                                        <li>
+                                            <a href="shop.html"><span><img src="~/assets/img/vertical-menu/1.png" alt="menu-icon"></span>Computer</a>
                                             <!-- Vertical Mega-Menu Start -->
                                             <ul class="ht-dropdown megamenu">
                                                 <!-- Mega-Menu Three Column Start -->
@@ -318,7 +321,8 @@
                                             </ul>
                                             <!-- Vertical Mega-Menu End -->
                                         </li>
-                                        <li><a href="shop.html"><span><img src="~/assets/img/vertical-menu/2.png" alt="menu-icon"></span>Kitchen</a>
+                                        <li>
+                                            <a href="shop.html"><span><img src="~/assets/img/vertical-menu/2.png" alt="menu-icon"></span>Kitchen</a>
                                             <!-- Vertical Mega-Menu Start -->
                                             <ul class="ht-dropdown megamenu">
                                                 <!-- Mega-Menu Three Column Start -->
@@ -363,7 +367,8 @@
                                             </ul>
                                             <!-- Vertical Mega-Menu End -->
                                         </li>
-                                        <li><a href="shop.html"><span><img src="~/assets/img/vertical-menu/3.png" alt="menu-icon"></span>Smart Phone</a>
+                                        <li>
+                                            <a href="shop.html"><span><img src="~/assets/img/vertical-menu/3.png" alt="menu-icon"></span>Smart Phone</a>
                                             <!-- Vertical Mega-Menu Start -->
                                             <ul class="ht-dropdown megamenu">
                                                 <!-- Mega-Menu Two Column Start -->
@@ -408,7 +413,8 @@
                                             </ul>
                                             <!-- Vertical Mega-Menu End -->
                                         </li>
-                                        <li><a href="shop.html"><span><img src="~/assets/img/vertical-menu/4.png" alt="menu-icon"></span>Fashion</a>
+                                        <li>
+                                            <a href="shop.html"><span><img src="~/assets/img/vertical-menu/4.png" alt="menu-icon"></span>Fashion</a>
                                             <!-- Vertical Mega-Menu Start -->
                                             <ul class="ht-dropdown megamenu megamenu-four">
                                                 <!-- Mega-Menu Three Column Start -->
@@ -441,9 +447,11 @@
                                             </ul>
                                             <!-- Vertical Mega-Menu End -->
                                         </li>
-                                        <li><a href="shop.html"><span><img src="~/assets/img/vertical-menu/5.png" alt="menu-icon"></span>Tablet</a>
+                                        <li>
+                                            <a href="shop.html"><span><img src="~/assets/img/vertical-menu/5.png" alt="menu-icon"></span>Tablet</a>
                                         </li>
-                                        <li><a href="shop.html"><span><img src="~/assets/img/vertical-menu/6.png" alt="menu-icon"></span>Electtronic</a>
+                                        <li>
+                                            <a href="shop.html"><span><img src="~/assets/img/vertical-menu/6.png" alt="menu-icon"></span>Electtronic</a>
                                         </li>
                                         <li><a href="shop.html"><span><img src="~/assets/img/vertical-menu/7.png" alt="menu-icon"></span>Books</a></li>
                                         <li><a href="shop.html"><span><img src="~/assets/img/vertical-menu/8.png" alt="menu-icon"></span>Sports</a></li>
@@ -468,7 +476,8 @@
                                 <ul class="text-end">
                                     <li><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
                                     <li><a href="compare.html"><i class="fa fa-signal"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-basket"></i><span class="cart-counter">2</span></a>
+                                    <li>
+                                        <a href="#"><i class="fa fa-shopping-basket"></i><span class="cart-counter">2</span></a>
                                         <ul class="ht-dropdown main-cart-box">
                                             <li>
                                                 <!-- Cart Box Start -->
@@ -506,7 +515,8 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li class="search-bar-xs d-none"><a href="#"><i class="fa fa-search"></i></a>
+                                    <li class="search-bar-xs d-none">
+                                        <a href="#"><i class="fa fa-search"></i></a>
                                         <div class="ht-dropdown search-box-view">
                                             <form action="#">
                                                 <input type="text" class="email" placeholder="Search for item..." name="email">
@@ -552,7 +562,7 @@
                 </div>
             </div>
         </div>
-        <!-- Mobile Vertical-Menu End -->  
+        <!-- Mobile Vertical-Menu End -->
         @RenderBody()
         <footer class="black-o-bg">
             <!-- Footer Top Start -->
@@ -689,7 +699,7 @@
             <div class="footer-bottom ptb-40">
                 <div class="container">
                     <div class="footer-bottom-content">
-                        <p class="pt-10">Copyright © <a  href="#">Bigon</a> All Rights Reserved.</p>
+                        <p class="pt-10">Copyright © <a href="#">Bigon</a> All Rights Reserved.</p>
                         <div class="footer-social-content">
                             <ul class="social-content-list">
                                 <li><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -709,7 +719,7 @@
     </div>
     <!-- Wrapper End -->
     <!-- jquery 3.12.4 -->
-  <script src="~/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="~/assets/js/vendor/modernizr-2.8.3.min.js"></script>
     <script src="~/assets/js/vendor/jquery-1.12.4.min.js"></script>
     <script src="~/assets/js/vendor/jquery-migrate-1.4.1.min.js"></script>
     <!-- mobile menu js  -->
@@ -733,8 +743,37 @@
     <script src="~/assets/js/plugins.js"></script>
     <!-- main js -->
     <script src="~/assets/js/main.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#newsletter-s1').submit(function (e) {
+                e.preventDefault();
+
+
+                let formdata = new FormData(e.currentTarget);
+
+                $.ajax({
+                    url: '@Url.Action("Subscribe", "Home")',
+                    type: 'POST',
+                    data: formdata,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        console.log(response);
+                       toastr.success(response.message, @ViewBag.Write)
+                        e.currentTarget.reset();
+                    },
+                    error: function (response) {
+                        console.log(response);
+                        toastr.error(response.message, "Xeta!")
+                    }
+                })
+
+            })
+        })
+    </script>
     @RenderSection("addjs",required:false)
 </body>
 
-
 </html>
+

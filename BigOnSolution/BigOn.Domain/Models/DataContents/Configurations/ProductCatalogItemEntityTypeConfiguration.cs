@@ -26,3 +26,4 @@ namespace BigOn.Domain.Models.DataContexts.Configurations
         }
     }
 }
+//      Gelenden sonra sqlde deyishiklikleri etmeli, BlogPOstcontrollerde tagleri cagrmali bide detallida tagleri gormeycun FE yazmaliyq  

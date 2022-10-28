@@ -1,4 +1,5 @@
-﻿@model BlogPost
+﻿@model BlogPostPutCommand
+
 
 @{
     ViewData["Title"] = "Edit";
@@ -69,6 +70,15 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label asp-for="CategoryId" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <select asp-for="CategoryId" asp-items="ViewBag.CategoryId" class="form-control select2">
+                                        <option selected disabled>---Seçin---</option>
+                                    </select>
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Image</label>
                                 <div class="col-sm-10">
                                     <label class="image-viewer" for="image" style="background-image:url(/uploads/images/@Model.ImagePath)"></label>
@@ -80,6 +90,14 @@
                                 <div class="col-sm-10">
                                     <textarea asp-for="Body" class="form-control" id="body"></textarea>
                                     <span asp-validation-for="Body" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Body" class="col-sm-2 col-form-label">Tags</label>
+                                <div class="col-sm-10">
+                                    <select multiple name="tagIds" asp-items="ViewBag.Tag" class="select2" selected-value="@Model.tagIds.ToJsonArray()">
+                                        <option disabled selected>---Secin---</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -98,6 +116,8 @@
 
 @section addjs {
     <script class="removeable" src="~/libs/ckeditor5/ckeditor.min.js"></script>
+    <script class="removeable" src="~/libs/select2/dist/js/select2.full.min.js"></script>
+
     <script>
 
         let reader = new FileReader();
@@ -122,6 +142,18 @@
             .catch(error => {
                 console.error(error);
             });
+            $('.select2').select2();
+            //$('select[selected-value]').each((index, item)=>{
+            //    let values = $(item).attr('selected-value');
+            //    if(values.length == 0) return;
+
+            //    $(item).val(JSON.parse(values));
+            //$(item).trigger('change.select2');
+            //});
     </script>
+}
+@section addcss{
+    <link rel="stylesheet" href="~/libs/select2/dist/css/select2.min.css" />
+
 }
 

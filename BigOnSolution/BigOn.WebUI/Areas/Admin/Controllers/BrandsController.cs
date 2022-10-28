@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BigOn.Domain.Models.DataContents;
 using BigOn.Domain.Models.Entities;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BigOn.WebUI.Areas.Admin.Controllers
 {
@@ -22,12 +23,14 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Brands
+        [Authorize(Policy = "admin.brands.index")]
         public async Task<IActionResult> Index()
         {
             return View(await db.Brands.ToListAsync());
         }
 
         // GET: Admin/Brands/Details/5
+        [Authorize(Policy = "admin.brands.details")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,6 +49,7 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Brands/Create
+        [Authorize(Policy = "admin.brands.create")]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +60,7 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.brands.create")]
         public async Task<IActionResult> Create([Bind("Name")] Brand brand)
         {
             if (ModelState.IsValid)
@@ -68,6 +73,7 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Brands/Edit/5
+        [Authorize(Policy = "admin.brands.edit")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,6 +94,7 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.brands.edit")]
         public async Task<IActionResult> Edit(int id, [Bind("Name,Id")] Brand brand)
         {
             if (id != brand.Id)
@@ -118,9 +125,10 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
             return View(brand);
         }
 
-       
+
 
         // POST: Admin/Brands/Delete/5
+        [Authorize(Policy = "admin.brands.delete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
