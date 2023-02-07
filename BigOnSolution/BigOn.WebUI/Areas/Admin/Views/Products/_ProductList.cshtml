@@ -1,0 +1,30 @@
+﻿@model PagedViewModel<Product>
+
+
+@foreach (var item in Model.Items)
+{
+    var imagePath = item.Images.FirstOrDefault(p => p.IsMain == true)?.Name;
+    <tr>
+        <td class="image-cell">
+            @if (!string.IsNullOrWhiteSpace(imagePath))
+            {
+                <img src="~/uploads/images/@imagePath" class="img-fluid">
+            }
+        </td>
+        <td class="ellipse">
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td class="ellipse ">
+            @item.StockKeepingUnit.ToPlainText();
+        </td>
+
+        <td class="operations table-imaged">
+            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning"><i class="fa-solid fa-pencil"></i></a>
+            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info"><i class="fa-solid fa-eye"></i></a>
+            <a class="btn btn-sm btn-danger" onclick="removeEntity(@item.Id, '@item.Name')"><i class="fa-solid fa-trash-can"></i></a>
+        </td>
+    </tr>
+}

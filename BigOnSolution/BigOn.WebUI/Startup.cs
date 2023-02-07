@@ -1,4 +1,5 @@
 using BigOn.Domain.AppCode.Extensions;
+using BigOn.Domain.AppCode.Providers;
 using BigOn.Domain.AppCode.Services;
 using BigOn.Domain.Models.DataContents;
 using MediatR;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +38,7 @@ namespace BigOn.WebUI
                                         .RequireAuthenticatedUser()
                                         .Build();
                 cfg.Filters.Add(new AuthorizeFilter(policy));
+                cfg.ModelBinderProviders.Insert(0, new BooleanBinderProvider());
             });
             services.AddDbContext<BigOnDbContext>(cfg =>
             {
@@ -75,6 +78,7 @@ namespace BigOn.WebUI
             services.AddSingleton<EmailService>();
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("BigOn."));
             services.AddMediatR(assemblies.ToArray());
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
         }
 
 

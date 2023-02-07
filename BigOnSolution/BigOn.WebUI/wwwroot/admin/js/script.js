@@ -351,4 +351,9 @@ $('#styleSelector').append('' +
         '<a href="#!" target="_blank" class="btn btn-twitter soc-icon m-l-20 m-b-20"><i class="feather icon-twitter"></i></a>' +
     '</li>' +
 '</ul>'+
-'');
+    '');
+
+
+String.prototype.isHtml = function () {
+    return /[<>]+/g.test(this) == true || this.replace(/(\r|\n|\r\n|\s)/g, '').length == 0;
+}

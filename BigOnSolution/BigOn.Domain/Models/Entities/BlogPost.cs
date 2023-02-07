@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BigOn.Domain.Models.Entities
 {
-    public class BlogPost : BaseEntity
+    public class BlogPost : BaseEntity, IPageable
     {
         public string Title { get; set; }
         public string Body { get; set; }

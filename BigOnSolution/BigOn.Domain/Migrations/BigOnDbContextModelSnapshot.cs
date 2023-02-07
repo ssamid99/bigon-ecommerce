@@ -39,6 +39,9 @@ namespace BigOn.Domain.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
@@ -85,6 +88,9 @@ namespace BigOn.Domain.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
@@ -114,6 +120,9 @@ namespace BigOn.Domain.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
@@ -141,6 +150,9 @@ namespace BigOn.Domain.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
@@ -161,6 +173,9 @@ namespace BigOn.Domain.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
@@ -198,6 +213,9 @@ namespace BigOn.Domain.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
@@ -240,6 +258,9 @@ namespace BigOn.Domain.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
@@ -262,8 +283,14 @@ namespace BigOn.Domain.Migrations
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
@@ -283,9 +310,17 @@ namespace BigOn.Domain.Migrations
                     b.Property<string>("ShortDescription")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Slug")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StockKeepingUnit")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -309,6 +344,9 @@ namespace BigOn.Domain.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
@@ -346,6 +384,9 @@ namespace BigOn.Domain.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
@@ -360,7 +401,7 @@ namespace BigOn.Domain.Migrations
                     b.ToTable("ProductColors");
                 });
 
-            modelBuilder.Entity("BigOn.Domain.Models.Entities.ProductImages", b =>
+            modelBuilder.Entity("BigOn.Domain.Models.Entities.ProductImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -369,6 +410,9 @@ namespace BigOn.Domain.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
@@ -379,12 +423,12 @@ namespace BigOn.Domain.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ProductsId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductsId");
 
                     b.ToTable("ProductImages");
                 });
@@ -398,6 +442,9 @@ namespace BigOn.Domain.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
@@ -419,6 +466,9 @@ namespace BigOn.Domain.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
@@ -444,6 +494,9 @@ namespace BigOn.Domain.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
@@ -471,6 +524,9 @@ namespace BigOn.Domain.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
@@ -497,6 +553,9 @@ namespace BigOn.Domain.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
@@ -770,7 +829,15 @@ namespace BigOn.Domain.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BigOn.Domain.Models.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Brand");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("BigOn.Domain.Models.Entities.ProductCatalogItem", b =>
@@ -816,11 +883,11 @@ namespace BigOn.Domain.Migrations
                     b.Navigation("ProductType");
                 });
 
-            modelBuilder.Entity("BigOn.Domain.Models.Entities.ProductImages", b =>
+            modelBuilder.Entity("BigOn.Domain.Models.Entities.ProductImage", b =>
                 {
                     b.HasOne("BigOn.Domain.Models.Entities.Product", "Products")
                         .WithMany("Images")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

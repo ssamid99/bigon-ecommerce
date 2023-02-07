@@ -2,6 +2,7 @@
 using BigOn.Domain.Models.DataContents;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,20 @@ namespace BigOn.Domain.AppCode.Extensions
                     identity.Claims.FirstOrDefault(c =>
                     c.Type.Equals(ClaimTypes.NameIdentifier)).Value
                     );
+        }
+
+        public static int GetCurrentUserId(this ClaimsPrincipal principal)
+        {
+            if(principal.Identity is ClaimsIdentity identity)
+            {
+                return identity.GetCurrentUserId();
+            }
+            return 0;
+        }
+        
+        public static int GetCurrentUserId(this IActionContextAccessor ctx)
+        {
+            return ctx.ActionContext.HttpContext.User.GetCurrentUserId();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace BigOn.Domain.Models.DataContents
         public DbSet<ProductColor> ProductColors { get; set; }
         public DbSet<ProductSize> ProductSizes { get; set; }
         public DbSet<ProductMaterial> ProductMaterials { get; set; }
-        public DbSet<ProductImages> ProductImages { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ProductCatalogItem> ProductCatalogItem { get; set; } 
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<Subscribe> Subscribes { get; set; }

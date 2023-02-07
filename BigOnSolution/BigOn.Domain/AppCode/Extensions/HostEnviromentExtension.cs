@@ -1,4 +1,5 @@
 ﻿using BigOn.Domain.Models.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,16 @@ namespace BigOn.Domain.AppCode.Extensions
             var imageNewPath = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "images", $"archive-{DateTime.Now:yyyyMMdd}-{fileName}");
                 File.Move(imageActualPath, imageNewPath);
             }
+        }
+
+        public static bool IsAjaxRequest(this HttpRequest request)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException("request");
+            }
+
+            return request.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
     }
 }

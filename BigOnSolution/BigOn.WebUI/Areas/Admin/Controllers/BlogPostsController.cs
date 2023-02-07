@@ -15,6 +15,7 @@ using BigOn.Domain.Migrations;
 using static System.Net.Mime.MediaTypeNames;
 using BigOn.Domain.Business.BlogPostModule;
 using MediatR;
+using BigOn.Domain.Business.ProductModule;
 
 namespace BigOn.WebUI.Areas.Admin.Controllers
 {
@@ -154,20 +155,13 @@ namespace BigOn.WebUI.Areas.Admin.Controllers
         // POST: Admin/BlogPosts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(ProductRemoveCommand command)
         {
-            var entity = db.BlogPosts.FirstOrDefault(bg => bg.Id == id && bg.DeletedDate == null);
-
-            if (entity == null)
+            var response = await mediator.Send(command);
+            if(response == null)
             {
                 return NotFound();
             }
-
-            entity.DeletedDate = DateTime.UtcNow.AddHours(4);
-
-            env.ArchiveImages(entity.ImagePath); //extension
-
-            await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

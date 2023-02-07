@@ -1,4 +1,5 @@
-﻿using BigOn.Domain.Models.DataContents;
+﻿using BigOn.Domain.AppCode.Infracture;
+using BigOn.Domain.Models.DataContents;
 using BigOn.Domain.Models.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace BigOn.Domain.Business.BlogPostModule
 {
-    public class BlogPostGetAllQuery : IRequest<List<BlogPost>>
+    public class BlogPostGetAllQuery : PaginateModel, IRequest<PagedViewModel<BlogPost>>
     {
-        public class BlogPostGetAllHandler : IRequestHandler<BlogPostGetAllQuery, List<BlogPost>>
+        public class BlogPostGetAllHandler : IRequestHandler<BlogPostGetAllQuery, PagedViewModel<BlogPost>>
         {
             private readonly BigOnDbContext db;
 
@@ -21,11 +22,24 @@ namespace BigOn.Domain.Business.BlogPostModule
             {
                 this.db = db;
             }
-            public async Task<List<BlogPost>> Handle(BlogPostGetAllQuery request, CancellationToken cancellationToken)
+
+            public async Task<PagedViewModel<BlogPost>> Handle(BlogPostGetAllQuery request, CancellationToken cancellationToken)
             {
-                var data = await db.BlogPosts.Where(bp => bp.DeletedDate == null && bp.PublishedDate !=null)
-                                   .ToListAsync(cancellationToken);
-                return data;
+                if(request.PageSize <= 6)
+                {
+                    request.PageSize = 6;
+                }
+
+
+                int skipSize = (request.PageIndex - 1) * request.PageSize;
+                var query = db.BlogPosts.Where(bp => bp.DeletedDate == null && bp.PublishedDate != null)
+                                             .OrderByDescending(bp => bp.PublishedDate)
+                                             .AsQueryable();
+                                             
+
+                var pagedModel = new PagedViewModel<BlogPost>(query, request);
+
+                return pagedModel;
             }
         }
     }
