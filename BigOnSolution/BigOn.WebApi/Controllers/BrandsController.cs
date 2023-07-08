@@ -1,70 +1,94 @@
-﻿using BigOn.Domain.Business.BrandModule;
-using BigOn.Domain.Models.DataContents;
-using BigOn.Domain.Models.Entities;
+﻿using AutoMapper;
+using BigOn.Domain.Business.BrandModule;
+using BigOn.Domain.Models.Dtos.Brands;
+using BigOn.Domain.Validators.BrandValidators;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BigOn.WebApi.Controllers
+namespace BigOn.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class BrandsController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly IMapper mapper;
+        private readonly IValidator<BrandPostCommand> brandCreateCommandValidator;
+        private readonly IValidator<BrandPutCommand> brandPutCommandValidator;
 
-        public BrandsController(IMediator mediator)
+        public BrandsController(IMediator mediator, IMapper mapper,
+            IValidator<BrandPostCommand> brandCreateCommandValidator,
+            IValidator<BrandPutCommand> brandPutCommandValidator)
         {
             this.mediator = mediator;
+            this.mapper = mapper;
+            this.brandCreateCommandValidator = brandCreateCommandValidator;
+            this.brandPutCommandValidator = brandPutCommandValidator;
+        }
+        [HttpGet]
+        public async Task<IActionResult> Get([FromRoute] BrandGetAllQuery query)
+        {
+            var response = await mediator.Send(query);
+            var dtoModel = mapper.Map<List<BrandDto>>(response);
+            return Ok(dtoModel);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get([FromRoute]BrandGetAllQuery query)
-        {
-            var response = await mediator.Send(query);
-            return Ok(response);
-        }
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute]BrandGetSingleQuery query)
+        public async Task<IActionResult> Get([FromRoute] BrandGetSingleQuery query)
         {
             var response = await mediator.Send(query);
-            if (response == null)
-            {
-                return NotFound();
-            }
-            return Ok(response);
+            var dtoModel = mapper.Map<BrandDto>(response);
+            return Ok(dtoModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(BrandPostCommand command)
+        public async Task<IActionResult> Add([FromBody] BrandPostCommand command)
         {
-            var response = await mediator.Send(command);
-            return Ok(response);
-        }
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id,[FromBody]BrandPutCommand command)
-        {
-            command.id = id;
-            var response = await mediator.Send(command);
-            if(response == null)
+            var validateResult = brandCreateCommandValidator.Validate(command);
+
+            if (validateResult.IsValid)
             {
-                return NotFound();
+                var response = await mediator.Send(command);
+                var dtoModel = mapper.Map<BrandDto>(response);
+                return Ok(dtoModel);
             }
-            
-            return Ok(command);
+            return BadRequest(validateResult);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] BrandPutCommand command)
+        {
+            var validateResult = await brandPutCommandValidator.ValidateAsync(command);
+
+            if (validateResult.IsValid)
+            {
+                var response = await mediator.Send(command);
+                if (response == null)
+                {
+                    return NotFound();
+                }
+                var dtoModel = mapper.Map<BrandDto>(response);
+
+                return Ok(dtoModel);
+            }
+            return BadRequest(validateResult);
+        }
+
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute]BrandDeleteCommand command)
+        public async Task<IActionResult> Remove([FromRoute] BrandDeleteCommand command)
         {
             var response = await mediator.Send(command);
             if (response == null)
             {
                 return NotFound();
             }
-            
-            return NoContent();
+            var dtoModel = mapper.Map<BrandDto>(response);
+
+            return Ok(dtoModel);
         }
     }
 }

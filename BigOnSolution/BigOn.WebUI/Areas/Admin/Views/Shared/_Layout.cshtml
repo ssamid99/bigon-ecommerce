@@ -32,6 +32,12 @@
     <!--Font Awesome-->
     <script src="https://kit.fontawesome.com/12b93b4558.js" crossorigin="anonymous"></script>
 
+    <style>
+        #counting:empty{
+            display:none!important;
+        }
+    </style>
+
     @RenderSection("addcss", required:false)
 </head>
 
@@ -175,7 +181,7 @@
                                 <div class="dropdown-primary dropdown">
                                     <div class="displayChatbox dropdown-toggle" data-toggle="dropdown">
                                         <i class="feather icon-message-square"></i>
-                                        <span class="badge bg-c-green">3</span>
+                                        <span id="counting" class="badge bg-c-green"></span>
                                     </div>
                                 </div>
                             </li>
@@ -432,10 +438,41 @@
 
     <script type="text/javascript" src="~/admin/js/script.js"></script>
     <script type="text/javascript" src="~/admin/js/script.min.js"></script>
-
+    <script src="~/libs/microsoft/signalr/dist/browser/signalr.min.js"></script>
     @RenderSection("addjs", required:false)
     <script class="removeable">
         $(document).ready(function(){
+
+            window['sms']=function(){
+                if(window['sms-file']==undefined){
+
+                    window['sms-file']=new Audio('/assets/sounds/sms.mp3');
+                    
+                }
+                    window['sms-file'].play();
+            }
+
+
+            var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+            let count = 0;
+            connection.on("ReceiveFromOperator", function (userId, message) {
+                console.log(userId, message);
+                count++
+                $('#counting').html(count);
+                sms();
+            });
+
+            connection.start().then(function () {
+
+                console.log('loaded!');
+
+                $('#chatbox').css("display", "inline-block");
+
+
+            }).catch(function (err) {
+                return console.error(err.toString());
+            });
             $('.removeable').remove();
         });
     </script>

@@ -1,4 +1,5 @@
 ﻿using BigOn.Domain.Models.Entities;
+using BigOn.Domain.Models.Entities.Chat;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebApiProject.Models.Entities.Membership;
@@ -28,6 +29,10 @@ namespace BigOn.Domain.Models.DataContents
         public DbSet<BlogPostComment> BlogPostComments { get; set; }
         public DbSet<BlogPostTagItem> BlogPostTagCloud { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<UserGroup> UserGroups { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

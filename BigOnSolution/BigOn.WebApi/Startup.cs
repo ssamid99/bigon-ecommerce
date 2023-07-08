@@ -1,19 +1,24 @@
+using BigOn.Domain.Mapper.BlogPostMapper;
+using BigOn.Domain.Mapper.BrandsMapper;
+using BigOn.Domain.Mapper.ContactPostMapper;
 using BigOn.Domain.Models.DataContents;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
-namespace BigOn.WebApi
+namespace BigOn.WebAPI
 {
     public class Startup
     {
@@ -23,23 +28,34 @@ namespace BigOn.WebApi
         {
             this.configuration = configuration;
         }
-    
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
+            services.AddControllers()
+                .AddNewtonsoftJson(cfg =>
+                {
+                    cfg.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
             services.AddDbContext<BigOnDbContext>(cfg =>
             {
-                var cs = configuration.GetConnectionString("cString");
-                cfg.UseSqlServer(cs);
+                cfg.UseSqlServer(configuration.GetConnectionString("cString"));
             });
 
-            var relatedAssembly = Assembly.LoadFrom("bin/Debug/net5.0/BigOn.Domain.dll");
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("BigOn."));
-            services.AddMediatR(assemblies.ToArray());
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("BigOn")).ToArray();
+            
+            services.AddMediatR(assemblies);
+
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<BrandProfile>();
+                cfg.AddProfile<BlogPostProfile>();
+                cfg.AddProfile<ContactPostProfile>();
+            });
+
+            services.AddValidatorsFromAssemblies(assemblies);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

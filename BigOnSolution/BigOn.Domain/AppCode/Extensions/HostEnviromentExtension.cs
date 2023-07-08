@@ -17,6 +17,11 @@ namespace BigOn.Domain.AppCode.Extensions
             return Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "images", fileName);
         }
 
+        public static string GetImagePhysicalPath(this string folder, string fileName)
+        {
+            return Path.Combine(folder, fileName);
+        }
+
         public static void ArchiveImages(this IHostEnvironment env, string fileName)
         {
             var imageActualPath = Path.Combine(env.ContentRootPath, "wwwroot", "uploads", "images", fileName);
@@ -26,15 +31,14 @@ namespace BigOn.Domain.AppCode.Extensions
                 File.Move(imageActualPath, imageNewPath);
             }
         }
-
-        public static bool IsAjaxRequest(this HttpRequest request)
+        public static void ArchiveImages(this string folder, string fileName)
         {
-            if (request == null)
+            var imageActualPath = Path.Combine(folder, fileName);
+            if (File.Exists(imageActualPath))
             {
-                throw new ArgumentNullException("request");
+                var imageNewPath = Path.Combine(folder, $"archive-{DateTime.Now:yyyyMMdd}-{fileName}");
+                File.Move(imageActualPath, imageNewPath);
             }
-
-            return request.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
     }
 }

@@ -13,6 +13,15 @@
     {
       "library": "ckeditor5@35.1.0",
       "destination": "wwwroot/libs/ckeditor5/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "@microsoft/signalr@latest",
+      "destination": "wwwroot/libs/microsoft/signalr/",
+      "files": [
+        "dist/browser/signalr.js",
+        "dist/browser/signalr.min.js"
+      ]
     }
   ]
 }

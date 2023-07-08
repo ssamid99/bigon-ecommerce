@@ -13,7 +13,13 @@ namespace BigOn.Domain.Business.ContactPostModule
 {
     public class ContactPostPostCommand : IRequest<ContactPost>
     {
-        public string name { get; set; }
+        public string Name { get; set; }
+
+        public string Email { get; set; }
+
+        public string Subject { get; set; }
+
+        public string Message { get; set; }
         public class ContactPostPostCommandHandler : IRequestHandler<ContactPostPostCommand, ContactPost>
         {
             private readonly BigOnDbContext db;
@@ -26,10 +32,16 @@ namespace BigOn.Domain.Business.ContactPostModule
             public async Task<ContactPost> Handle(ContactPostPostCommand request, CancellationToken cancellationToken)
             {
                 var model = new ContactPost();
-                model.Name = request.name;
+                model.Name = request.Name;
+                model.Email = request.Email;
+                model.Subject = request.Subject;
+                model.Message = request.Message;
+
                 await db.ContactPosts.AddAsync(model, cancellationToken);
                 await db.SaveChangesAsync(cancellationToken);
-                return model;            }
+                
+                return model;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 using BigOn.Domain.AppCode.Extensions;
 using BigOn.Domain.AppCode.Providers;
 using BigOn.Domain.AppCode.Services;
+using BigOn.Domain.Hubs;
 using BigOn.Domain.Models.DataContents;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -79,6 +80,7 @@ namespace BigOn.WebUI
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("BigOn."));
             services.AddMediatR(assemblies.ToArray());
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddSignalR();
         }
 
 
@@ -100,6 +102,7 @@ namespace BigOn.WebUI
             {
                 cfg.MapAreaControllerRoute("defaultAdmin","admin", "admin/{controller=dashboard}/{action=index}/{id?}");
                 cfg.MapControllerRoute("default", "{controller=home}/{action=index}/{id?}");
+                cfg.MapHub<ChatHub>("/chatHub");
             });
         }
     }

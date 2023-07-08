@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BigOn.WebApi
+namespace BigOn.WebAPI
 {
     public class Program
     {

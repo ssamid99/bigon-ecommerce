@@ -193,6 +193,86 @@ namespace BigOn.Domain.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("BigOn.Domain.Models.Entities.Chat.Group", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Groups", "Chat");
+                });
+
+            modelBuilder.Entity("BigOn.Domain.Models.Entities.Chat.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FromId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ToId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromId");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("ToId");
+
+                    b.ToTable("Messages", "Chat");
+                });
+
+            modelBuilder.Entity("BigOn.Domain.Models.Entities.Chat.UserGroup", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("UserGroups", "Chat");
+                });
+
             modelBuilder.Entity("BigOn.Domain.Models.Entities.ContactPost", b =>
                 {
                     b.Property<int>("Id")
@@ -819,6 +899,48 @@ namespace BigOn.Domain.Migrations
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("BigOn.Domain.Models.Entities.Chat.Message", b =>
+                {
+                    b.HasOne("WebApiProject.Models.Entities.Membership.BigOnUser", "From")
+                        .WithMany()
+                        .HasForeignKey("FromId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BigOn.Domain.Models.Entities.Chat.Group", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId");
+
+                    b.HasOne("WebApiProject.Models.Entities.Membership.BigOnUser", "To")
+                        .WithMany()
+                        .HasForeignKey("ToId");
+
+                    b.Navigation("From");
+
+                    b.Navigation("Group");
+
+                    b.Navigation("To");
+                });
+
+            modelBuilder.Entity("BigOn.Domain.Models.Entities.Chat.UserGroup", b =>
+                {
+                    b.HasOne("BigOn.Domain.Models.Entities.Chat.Group", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApiProject.Models.Entities.Membership.BigOnUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BigOn.Domain.Models.Entities.Product", b =>

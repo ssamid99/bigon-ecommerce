@@ -5,6 +5,7 @@ using BigOn.Domain.Models.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace BigOn.Domain.Business.BlogPostModule
 {
-   public class BlogPostPutCommand : IRequest<JsonResponse>
+    public class BlogPostPutCommand : IRequest<JsonResponse>
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -31,11 +32,13 @@ namespace BigOn.Domain.Business.BlogPostModule
         {
             private readonly BigOnDbContext db;
             private readonly IHostEnvironment env;
+            private readonly IConfiguration configuration;
 
-            public BlogPostPutCommandHandler(BigOnDbContext db, IHostEnvironment env)
+            public BlogPostPutCommandHandler(BigOnDbContext db, IHostEnvironment env, IConfiguration configuration)
             {
                 this.db = db;
                 this.env = env;
+                this.configuration = configuration;
             }
             public async Task<JsonResponse> Handle(BlogPostPutCommand request, CancellationToken cancellationToken)
             {
@@ -57,21 +60,41 @@ namespace BigOn.Domain.Business.BlogPostModule
                 string extension = Path.GetExtension(request.Image.FileName); //.jpg-ni goturur
                 request.ImagePath = $"blogpost-{Guid.NewGuid().ToString().ToLower()}{extension}";
 
-                string fullPath = env.GetImagePhysicalPath(request.ImagePath);
+                string folder = configuration["uploads:folder"];
+
+                string fullPath = null;
+
+                if (!string.IsNullOrWhiteSpace(folder))
+                {
+                    fullPath = folder.GetImagePhysicalPath(request.ImagePath);
+                }
+                else
+                {
+                    fullPath = env.GetImagePhysicalPath(request.ImagePath);
+                }
 
                 using (var fs = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
                 {
                     request.Image.CopyTo(fs);
                 }
 
-                string oldPath = env.GetImagePhysicalPath(entity.ImagePath);
+                string oldPath = null;
+
+                if (!string.IsNullOrWhiteSpace(folder))
+                {
+                    oldPath = folder.GetImagePhysicalPath(entity.ImagePath);
+                    System.IO.File.Move(oldPath, folder.GetImagePhysicalPath($"archive{DateTime.Now:yyyyMMdd}-{entity.ImagePath}"));
+                }
+                else
+                {
+                    oldPath = env.GetImagePhysicalPath(entity.ImagePath);
+                    System.IO.File.Move(oldPath, env.GetImagePhysicalPath($"archive{DateTime.Now:yyyyMMdd}-{entity.ImagePath}"));
+                }
 
                 //if (System.IO.File.Exists(oldPath))
                 //{
                 //    System.IO.File.Delete(oldPath);
                 //}
-
-                System.IO.File.Move(oldPath, env.GetImagePhysicalPath($"archive{DateTime.Now:yyyyMMdd}-{entity.ImagePath}"));
 
                 entity.ImagePath = request.ImagePath;
 
@@ -119,14 +142,14 @@ namespace BigOn.Domain.Business.BlogPostModule
                             tagItem.TagId = exceptedId;
                             tagItem.BlogPostId = entity.Id;
 
-                           await db.BlogPostTagCloud.AddAsync(tagItem);
+                            await db.BlogPostTagCloud.AddAsync(tagItem);
                         }
                     }
                     #endregion
                 }
 
 
-                
+
                 await db.SaveChangesAsync(cancellationToken);
                 return new JsonResponse
                 {

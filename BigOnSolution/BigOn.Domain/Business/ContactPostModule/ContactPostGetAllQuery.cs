@@ -31,4 +31,3 @@ namespace BigOn.Domain.Business.ContactPostModule
         }
     }
 }
-

@@ -46,6 +46,11 @@ namespace BigOn.Domain.AppCode.Infracture
                               .ToList();
         }
 
+        public PagedViewModel()
+        {
+            
+        }
+
         public HtmlString GetPager(IUrlHelper urlHelper, string action, string area = "", string paginateFunction = "")
         {
             if (this.PageSize >= TotalCount)

@@ -13,7 +13,7 @@ namespace BigOn.Domain.Business.ContactPostModule
 {
     public class ContactPostDeleteCommand : IRequest<ContactPost>
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public class ContactPostDeleteCommandHandler : IRequestHandler<ContactPostDeleteCommand, ContactPost>
         {
             private readonly BigOnDbContext db;
@@ -24,7 +24,7 @@ namespace BigOn.Domain.Business.ContactPostModule
             }
             public async Task<ContactPost> Handle(ContactPostDeleteCommand request, CancellationToken cancellationToken)
             {
-                var data = db.ContactPosts.FirstOrDefault(m => m.Id == request.id && m.DeletedDate == null);
+                var data = await db.ContactPosts.FirstOrDefaultAsync(m => m.Id == request.Id && m.DeletedDate == null, cancellationToken);
 
                 if (data == null)
                 {

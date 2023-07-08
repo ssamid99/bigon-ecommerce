@@ -5,6 +5,7 @@ using BigOn.Domain.Models.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -30,11 +31,13 @@ namespace BigOn.Domain.Business.BlogPostModule
         {
             private readonly BigOnDbContext db;
             private readonly IHostEnvironment env;
+            private readonly IConfiguration configuration;
 
-            public BlogPostPostCommandHandler(BigOnDbContext db, IHostEnvironment env)
+            public BlogPostPostCommandHandler(BigOnDbContext db, IHostEnvironment env, IConfiguration configuration)
             {
                 this.db = db;
                 this.env = env;
+                this.configuration = configuration;
             }
             public async Task<JsonResponse> Handle(BlogPostPostCommand request, CancellationToken cancellationToken)
             {
@@ -51,7 +54,19 @@ namespace BigOn.Domain.Business.BlogPostModule
                 string extension = Path.GetExtension(request.Image.FileName);//.jpg
 
                 request.ImagePath = $"blogpost-{Guid.NewGuid().ToString().ToLower()}{extension}";
-                string fullPath = env.GetImagePhysicalPath(request.ImagePath);
+
+                string folder = configuration["uploads:folder"];
+
+                string fullPath = null;
+
+                if (!string.IsNullOrWhiteSpace(folder))
+                {
+                    fullPath = folder.GetImagePhysicalPath(request.ImagePath);
+                }
+                else
+                {
+                    fullPath = env.GetImagePhysicalPath(request.ImagePath);
+                }
 
                 using (var fs = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
                 {

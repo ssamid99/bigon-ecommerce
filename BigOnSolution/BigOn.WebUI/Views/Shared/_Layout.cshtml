@@ -36,6 +36,26 @@
     <!-- responsive css -->
     <link rel="stylesheet" href="~/assets/css/responsive.css">
 
+    <style>
+        .chatbox {
+            width: 360px;
+            position: fixed;
+            right: 10px;
+            bottom: 0;
+            border: 1px solid teal;
+            border-radius: 5px;
+            z-index: 9999;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+
+            .chatbox .message {
+                resize: none;
+                min-height: 200px;
+                overflow-y: auto;
+            }
+    </style>
+
     @RenderSection("addcss",required:false)
 
     <!-- modernizr js -->
@@ -743,7 +763,7 @@
     <script src="~/assets/js/plugins.js"></script>
     <!-- main js -->
     <script src="~/assets/js/main.js"></script>
-
+    <script src="~/libs/microsoft/signalr/dist/browser/signalr.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#newsletter-s1').submit(function (e) {
@@ -760,7 +780,7 @@
                     contentType: false,
                     success: function (response) {
                         console.log(response);
-                       toastr.success(response.message, @ViewBag.Write)
+                        toastr.success(response.message, @ViewBag.Write)
                         e.currentTarget.reset();
                     },
                     error: function (response) {
@@ -770,8 +790,45 @@
                 })
 
             })
+
+            $("#chatbox").submit(function(e){
+                e.preventDefault();
+
+                console.log('sending...');
+
+                const formData = new FormData(e.currentTarget);
+
+                connection.invoke('SendFromClient', formData.get("message"))
+                .then(response=>{
+                    e.currentTarget.reset();
+                })
+                .catch(response=>{
+                    console.log(response);
+                });
+            });
+
+            var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+            connection.on("ReceiveFromClient", function (userId, message) {
+                console.log(userId, message);
+            });
+
+            connection.start().then(function () {
+
+                console.log('loaded!');
+
+                $('#chatbox').css("display","inline-block");
+
+
+            }).catch(function (err) {
+                return console.error(err.toString());
+            });
         })
     </script>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <partial name="_ChatBox" />
+    }
     @RenderSection("addjs",required:false)
 </body>
 
