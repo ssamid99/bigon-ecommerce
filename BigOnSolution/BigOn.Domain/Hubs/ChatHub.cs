@@ -3,6 +3,7 @@ using BigOn.Domain.Business.ChatModel;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace BigOn.Domain.Hubs
     public class ChatHub : Hub
     {
         private readonly IMediator mediator;
+        static ConcurrentDictionary<int, string> clients = new ConcurrentDictionary<int, string>();
 
         public ChatHub(IMediator mediator)
         {
@@ -21,12 +23,23 @@ namespace BigOn.Domain.Hubs
         public override async Task OnConnectedAsync()
         {
             await base.OnConnectedAsync();
-            var command = new HubUserConnectCommand
+            var httpContext = Context.GetHttpContext();
+            if (httpContext.User.Identity.IsAuthenticated)
             {
-                HubContext = Context,
-                HubGroups = Groups
-            };
-            await mediator.Send(command);
+                var userId = httpContext.User.GetCurrentUserId();
+                var command = new HubUserConnectCommand
+                {
+                    HubContext = Context,
+                    HubGroups = Groups
+                };
+                await mediator.Send(command);
+                clients.AddOrUpdate(userId, Context.ConnectionId, (k, v) => v);
+            }
+        }
+        public override Task OnDisconnectedAsync(Exception exception)
+        {
+            return base.OnDisconnectedAsync(exception);
+
         }
 
         public async Task SendFromClient(string message)
@@ -37,19 +50,28 @@ namespace BigOn.Domain.Hubs
                 GroupName = "CallCenter",
                 Text = message
             };
-            var response = await mediator.Send(command); 
+            var response = await mediator.Send(command);
             var httpcontext = Context.GetHttpContext();
             var userId = httpcontext.User.GetCurrentUserId();
             //save to db
-            await Clients.Group(command.GroupName).SendAsync("ReceiveFromOperator", userId, command.Text);
+            await Clients.GroupExcept(command.GroupName, Context.ConnectionId).SendAsync("ReceiveFromOperator", userId, command.Text);
         }
 
-        public async Task SendFromOperator(string message)
+        public async Task SendFromOperator(string message, int toUserId)
         {
             var httpcontext = Context.GetHttpContext();
             var userId = httpcontext.User.GetCurrentUserId();
-            //save to db
-            await Clients.All.SendAsync("ReceiveFromClient", userId, message);
+            var command = new SendToUserCommand
+            {
+                HubContext = Context,
+                UserId = toUserId,
+                Text = message
+            };
+            var response = await mediator.Send(command);
+            if (response != null && clients.TryGetValue(response.ToId.Value, out string toUserConnectionId))
+            {
+                await Clients.User(toUserConnectionId).SendAsync("ReceiveFromClient", response.ToId.Value, response.Text);
+            }
         }
     }
 }

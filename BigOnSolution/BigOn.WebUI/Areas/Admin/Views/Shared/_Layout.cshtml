@@ -33,8 +33,8 @@
     <script src="https://kit.fontawesome.com/12b93b4558.js" crossorigin="anonymous"></script>
 
     <style>
-        #counting:empty{
-            display:none!important;
+        #counting:empty {
+            display: none !important;
         }
     </style>
 
@@ -245,64 +245,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="main-friend-list">
-                                <div class="media userlist-box" data-id="1" data-status="online"
-                                     data-username="Josephin Doe" data-toggle="tooltip" data-placement="left"
-                                     title="Josephin Doe">
-                                    <a class="media-left" href="#!">
-                                        <img class="media-object img-radius img-radius"
-                                             src="~/admin/images/avatar-3.jpg" alt="Generic placeholder image ">
-                                        <div class="live-status bg-success"></div>
-                                    </a>
-                                    <div class="media-body">
-                                        <div class="f-13 chat-header">Josephin Doe</div>
-                                    </div>
-                                </div>
-                                <div class="media userlist-box" data-id="2" data-status="online"
-                                     data-username="Lary Doe" data-toggle="tooltip" data-placement="left"
-                                     title="Lary Doe">
-                                    <a class="media-left" href="#!">
-                                        <img class="media-object img-radius" src="~/admin/images/avatar-2.jpg"
-                                             alt="Generic placeholder image">
-                                        <div class="live-status bg-success"></div>
-                                    </a>
-                                    <div class="media-body">
-                                        <div class="f-13 chat-header">Lary Doe</div>
-                                    </div>
-                                </div>
-                                <div class="media userlist-box" data-id="3" data-status="online" data-username="Alice"
-                                     data-toggle="tooltip" data-placement="left" title="Alice">
-                                    <a class="media-left" href="#!">
-                                        <img class="media-object img-radius" src="~/admin/images/avatar-4.jpg"
-                                             alt="Generic placeholder image">
-                                        <div class="live-status bg-success"></div>
-                                    </a>
-                                    <div class="media-body">
-                                        <div class="f-13 chat-header">Alice</div>
-                                    </div>
-                                </div>
-                                <div class="media userlist-box" data-id="4" data-status="online" data-username="Alia"
-                                     data-toggle="tooltip" data-placement="left" title="Alia">
-                                    <a class="media-left" href="#!">
-                                        <img class="media-object img-radius" src="~/admin/images/avatar-3.jpg"
-                                             alt="Generic placeholder image">
-                                        <div class="live-status bg-success"></div>
-                                    </a>
-                                    <div class="media-body">
-                                        <div class="f-13 chat-header">Alia</div>
-                                    </div>
-                                </div>
-                                <div class="media userlist-box" data-id="5" data-status="online" data-username="Suzen"
-                                     data-toggle="tooltip" data-placement="left" title="Suzen">
-                                    <a class="media-left" href="#!">
-                                        <img class="media-object img-radius" src="~/admin/images/avatar-2.jpg"
-                                             alt="Generic placeholder image">
-                                        <div class="live-status bg-success"></div>
-                                    </a>
-                                    <div class="media-body">
-                                        <div class="f-13 chat-header">Suzen</div>
-                                    </div>
-                                </div>
+                            <div class="main-friend-list" id="messageList">
                             </div>
                         </div>
                     </div>
@@ -353,7 +296,7 @@
             <!-- Sidebar inner chat end-->
             <div class="pcoded-main-container">
                 <div class="pcoded-wrapper">
-                    <partial name="_sidebar"/>
+                    <partial name="_sidebar" />
                     <div class="pcoded-content">
                         <div class="pcoded-inner-content">
                             <div class="main-body">
@@ -439,17 +382,35 @@
     <script type="text/javascript" src="~/admin/js/script.js"></script>
     <script type="text/javascript" src="~/admin/js/script.min.js"></script>
     <script src="~/libs/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/libs/live-chat/chat.js"></script>
     @RenderSection("addjs", required:false)
+    <script>
+        const chatBox = chatBox();
+        chatBox.receiveMessage({
+                friendId: 0,
+                friendName: "Demo1",
+                lastMessage: "bye",
+                unread: 3,
+                date: '2023-07-13 04:00'
+            });
+        chatBox.receiveMessage({
+            friendId: 1,
+            friendName: "Demo2",
+            lastMessage: "bye22",
+            unread: 2,
+            date: '2023-07-13 04:00'
+        });
+    </script>
     <script class="removeable">
-        $(document).ready(function(){
+        $(document).ready(function () {
 
-            window['sms']=function(){
-                if(window['sms-file']==undefined){
+            window['sms'] = function () {
+                if (window['sms-file'] == undefined) {
 
-                    window['sms-file']=new Audio('/assets/sounds/sms.mp3');
-                    
+                    window['sms-file'] = new Audio('/assets/sounds/sms.mp3');
+
                 }
-                    window['sms-file'].play();
+                window['sms-file'].play();
             }
 
 
@@ -460,6 +421,27 @@
                 console.log(userId, message);
                 count++
                 $('#counting').html(count);
+
+                //let message = $(`<div/>`, {
+                //    title: "Josephin Doe",
+                //    'data-id': userId,
+                //    'class': 'media userlist-box'
+                //});
+
+                //let messageA = $(`<a class="media-left" href="#!">
+                //            <img class="media-object" src="../files/assets/images/avatar-1.jpg"
+                //                 alt="Generic placeholder image" />
+                //            <div class="live-status bg-success"></div> </a>`);
+                            
+           
+                //$(message).appendChild(messageA);
+
+                //let messageD = $(`<div class="media-body">
+                //                       <div class="f-13 chat-header">Josephin Doe</div> </div>`);
+
+                //$(message).appendChild(messageD);
+                //$('#messageList').append(message);
+
                 sms();
             });
 
